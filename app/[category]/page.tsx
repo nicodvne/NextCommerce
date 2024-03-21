@@ -2,7 +2,6 @@ import Image from "next/image";
 import { simplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
 import Link from "next/link";
-import category from "@/tm-fight-club/schemaTypes/category.js";
 
 async function getData(category: string ) {
     const query = `*[_type == 'product' && category->name == "${category}"] {
