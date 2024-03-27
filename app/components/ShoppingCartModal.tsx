@@ -12,7 +12,20 @@ import { useShoppingCart } from "use-shopping-cart"
 
 export function ShoppingCartModal() {
 
-    const { cartCount, shouldDisplayCart, handleCartClick, cartDetails, removeItem, totalPrice } = useShoppingCart(); 
+    const { cartCount, shouldDisplayCart, handleCartClick, cartDetails, removeItem, totalPrice, redirectToCheckout } = useShoppingCart(); 
+
+
+    async function handleCheckoutClick(event: any) {
+        event.preventDefault();
+        try {
+            const result = await redirectToCheckout();
+            if (result?.error) {
+                console.log('error');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
   return (
     <Sheet open={shouldDisplayCart} onOpenChange={() => handleCartClick()}>
@@ -37,7 +50,7 @@ export function ShoppingCartModal() {
                                         <div>
                                             <div className="flex justify-between text-base font-medium text-gray-900">
                                                 <h3>{entry.name}</h3>
-                                                <p className="ml-4">${entry.price}</p>
+                                                <p className="ml-4">{entry.price}€</p>
                                             </div>
 
                                             <p className="mt-1 text-sm text-gray-500 line-clamp-2">
@@ -65,7 +78,7 @@ export function ShoppingCartModal() {
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                 <div className="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal:</p>
-                    <p>${totalPrice}</p>
+                    <p>{totalPrice}€</p>
                 </div>
                                 
                 <p className="mt-0.5 text-sm text-gray-500">
@@ -73,7 +86,7 @@ export function ShoppingCartModal() {
                 </p>
 
                 <div className="mt-6">
-                    <Button className="w-full">Checkout</Button>
+                    <Button onClick={handleCheckoutClick} className="w-full">Checkout</Button>
                 </div>
                 
                 <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
