@@ -13,7 +13,8 @@ async function getData(slug: string) {
         name,
         description,
         "slug": slug.current,
-        "categoryName": category->name
+        "categoryName": category->name,
+        price_id
       }`
 
       const data = client.fetch(query);
@@ -61,10 +62,10 @@ export default async function ProductPage({
                         <div className="mb-4">
                             <div className="flex items-end gap-2">
                                 <span className="text-xl font-bold text-gray-800 md:text-2xl">
-                                   ${data.price} 
+                                   {data.price}€ 
                                 </span>
                                 <span className="mb-0.5 text-red-500 line-through">
-                                    ${data.price + 30}
+                                    {data.price + 30}€
                                 </span>
                             </div>
 
@@ -84,6 +85,7 @@ export default async function ProductPage({
                                 image={data.images[0]}
                                 price={data.price}
                                 key={data._id}
+                                price_id={data.price_id}
                             />
                             <Button variant={"secondary"}>Checkout now</Button>
                         </div>
